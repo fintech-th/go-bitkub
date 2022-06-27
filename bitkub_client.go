@@ -173,7 +173,7 @@ func PlaceAskByFiat(api_key, api_secret, symbol, typ, client_id string, amount, 
 	return &response, nil
 }
 
-func ListOrderHistory(api_key, api_secret, symbol, client_id string) (*OrderHistoryResponseBitkub, error) {
+func ListOrderHistory(api_key, api_secret, symbol string) (*OrderHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
 	requestBody := map[string]string{
 		"ts":  now,
@@ -303,6 +303,47 @@ func CancelOrderByHash(api_key, api_secret, hash string) error {
 		return NewBitkubError(response.ErrorCode)
 	}
 	return nil
+}
+
+func GetSymbols() (*GetSymbolsResponseBitkub, error) {
+	httpReq, err := http.NewRequest("GET", `https://api.bitkub.com/api/market/symbols`, nil)
+	if err != nil {
+		return nil, err
+	}
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSymbolsResponseBitkub
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.ErrorCode != 0 {
+		return nil, NewBitkubError(response.ErrorCode)
+	}
+
+	return &response, nil
+}
+
+func GetTickers() (*GetTickersResponseBitkub, error) {
+	httpReq, err := http.NewRequest("GET", `https://api.bitkub.com/api/market/ticker`, nil)
+	if err != nil {
+		return nil, err
+	}
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetTickersResponseBitkub
+	err = json.Unmarshal(body, &response.Result)
+	if err != nil {
+		return nil, err
+	}
+	return &response, nil
 }
 
 func hashRequest(api_key, api_secret string, requestBody map[string]string) ([]byte, error) {

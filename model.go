@@ -167,6 +167,34 @@ type GinErrorResponse struct {
 	Code    string `json:"code"`
 }
 
+type GetSymbolsResponseBitkub struct {
+	ErrorCode int      `json:"error"`
+	Result    []Symbol `json:"result"`
+}
+
+type Symbol struct {
+	Id     int    `json:"id"`
+	Symbol string `json:"symbol"`
+	Info   string `json:"info"`
+}
+
+type GetTickersResponseBitkub struct {
+	Result map[string]Ticker `json:"result"`
+}
+
+type Ticker struct {
+	Id            int     `json:"id"`
+	Last          float64 `json:"last"`
+	LowestAsk     float64 `json:"lowestAsk"`
+	HighestBid    float64 `json:"highestBid"`
+	PercentChange float64 `json:"percentChange"`
+	BaseVolume    float64 `json:"baseVolume"`
+	QuoteVolume   float64 `json:"quoteVolume"`
+	IsFrozen      int     `json:"isFrozen"`
+	High24hr      float64 `json:"high24hr"`
+	Low24hr       float64 `json:"low24hr"`
+}
+
 // for case that sometimes quotes numbers and sometimes doesn't
 type JsonFloat64 float64
 
