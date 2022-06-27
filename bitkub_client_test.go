@@ -138,3 +138,25 @@ func TestCancelOrderByHashInvalidHash(t *testing.T) {
 		t.Error("error must be \"Invalid order for cancellation\", but get:", err)
 	}
 }
+
+func TestGetSymbols(t *testing.T) {
+	t.Log("Testing Place Bid Success")
+	res, err := GetSymbols()
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+	if len(res.Result) == 0 {
+		t.Error("length of result must not be 0")
+	}
+}
+
+func TestGetTickers(t *testing.T) {
+	t.Log("Testing Place Bid Success")
+	res, err := GetTickers()
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+	if len(res.Result) == 0 {
+		t.Error("length of result must not be 0")
+	}
+}
