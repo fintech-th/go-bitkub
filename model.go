@@ -86,10 +86,10 @@ type OrderHistoryResult struct {
 	IsMaker       bool        `json:"is_maker"`
 	Side          string      `json:"side"`
 	Type          string      `json:"type"`
-	Rate          JsonFloat64 `json:"rate,string"`
-	Fee           JsonFloat64 `json:"fee,string"`
-	Credit        JsonFloat64 `json:"credit,string"`
-	Amount        JsonFloat64 `json:"amount,string"`
+	Rate          JsonFloat64 `json:"rate"`
+	Fee           JsonFloat64 `json:"fee"`
+	Credit        JsonFloat64 `json:"credit"`
+	Amount        JsonFloat64 `json:"amount"`
 	Timestamp     int         `json:"ts"`
 	ClientId      string      `json:"client_id"`
 }
