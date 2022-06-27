@@ -93,7 +93,7 @@ func PlaceBid(api_key, api_secret, symbol, typ, client_id string, amount, rate f
 	}
 
 	if response.ErrorCode != 0 {
-		return nil, newBitkubError(response.ErrorCode)
+		return nil, NewBitkubError(response.ErrorCode)
 	}
 	return &response, nil
 }
@@ -131,7 +131,7 @@ func PlaceAskByCoin(api_key, api_secret, symbol, typ, client_id string, amount, 
 	}
 
 	if response.ErrorCode != 0 {
-		return nil, newBitkubError(response.ErrorCode)
+		return nil, NewBitkubError(response.ErrorCode)
 	}
 	return &response, nil
 }
@@ -168,7 +168,7 @@ func PlaceAskByFiat(api_key, api_secret, symbol, typ, client_id string, amount, 
 	}
 
 	if response.ErrorCode != 0 {
-		return nil, newBitkubError(response.ErrorCode)
+		return nil, NewBitkubError(response.ErrorCode)
 	}
 	return &response, nil
 }
@@ -201,7 +201,7 @@ func ListOrderHistory(api_key, api_secret, symbol, client_id string) (*OrderHist
 	}
 
 	if response.ErrorCode != 0 {
-		return nil, newBitkubError(response.ErrorCode)
+		return nil, NewBitkubError(response.ErrorCode)
 	}
 	return &response, nil
 }
@@ -233,7 +233,7 @@ func GetWallet(api_key, api_secret string) (*GetWalletResponseBitkub, error) {
 	}
 
 	if response.ErrorCode != 0 {
-		return nil, newBitkubError(response.ErrorCode)
+		return nil, NewBitkubError(response.ErrorCode)
 	}
 	return &response, nil
 }
@@ -266,7 +266,7 @@ func GetOpenOrders(api_key, api_secret, symbol string) (*OpenOrderResponseBitkub
 	}
 
 	if response.ErrorCode != 0 {
-		return nil, newBitkubError(response.ErrorCode)
+		return nil, NewBitkubError(response.ErrorCode)
 	}
 	return &response, nil
 }
@@ -300,7 +300,7 @@ func CancelOrderByHash(api_key, api_secret, hash string) error {
 	}
 
 	if response.ErrorCode != 0 {
-		return newBitkubError(response.ErrorCode)
+		return NewBitkubError(response.ErrorCode)
 	}
 	return nil
 }
@@ -347,20 +347,4 @@ func doRequest(httpReq *http.Request) ([]byte, error) {
 		return nil, err
 	}
 	return body, nil
-}
-
-type RequestError struct {
-	Code string
-	Err  error
-}
-
-func (e *RequestError) Error() string {
-	return fmt.Sprintf("%v", e.Err)
-}
-
-func newBitkubError(errorCode int) *RequestError {
-	return &RequestError{
-		Code: "SBO-001",
-		Err:  errors.New(ERROR_MESSAGE[errorCode]),
-	}
 }
