@@ -305,6 +305,134 @@ func CancelOrderByHash(api_key, api_secret, hash string) error {
 	return nil
 }
 
+func GetFiatDepositHistory(api_key, api_secret string) (*GetFiatDepositHistoryResponseBitkub, error) {
+	now := fmt.Sprint(time.Now().Unix())
+	requestBody := map[string]string{
+		"ts": now,
+	}
+	b, err := hashRequest(api_key, api_secret, requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	httpReq, err := http.NewRequest("POST", `https://api.bitkub.com/api/fiat/deposit-history`, bytes.NewBuffer(b))
+	if err != nil {
+		return nil, err
+	}
+
+	addApiKeyToHeader(httpReq, api_key)
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+	var response GetFiatDepositHistoryResponseBitkub
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.ErrorCode != 0 {
+		return nil, NewBitkubError(response.ErrorCode)
+	}
+	return &response, nil
+}
+
+func GetFiatWithdrawHistory(api_key, api_secret string) (*GetFiatWithdrawHistoryResponseBitkub, error) {
+	now := fmt.Sprint(time.Now().Unix())
+	requestBody := map[string]string{
+		"ts": now,
+	}
+	b, err := hashRequest(api_key, api_secret, requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	httpReq, err := http.NewRequest("POST", `https://api.bitkub.com/api/fiat/withdraw-history`, bytes.NewBuffer(b))
+	if err != nil {
+		return nil, err
+	}
+
+	addApiKeyToHeader(httpReq, api_key)
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+	var response GetFiatWithdrawHistoryResponseBitkub
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.ErrorCode != 0 {
+		return nil, NewBitkubError(response.ErrorCode)
+	}
+	return &response, nil
+}
+
+func GetCryptoDepositHistory(api_key, api_secret string) (*GetCryptoDepositHistoryResponseBitkub, error) {
+	now := fmt.Sprint(time.Now().Unix())
+	requestBody := map[string]string{
+		"ts": now,
+	}
+	b, err := hashRequest(api_key, api_secret, requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	httpReq, err := http.NewRequest("POST", `https://api.bitkub.com/api/crypto/deposit-history`, bytes.NewBuffer(b))
+	if err != nil {
+		return nil, err
+	}
+
+	addApiKeyToHeader(httpReq, api_key)
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+	var response GetCryptoDepositHistoryResponseBitkub
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.ErrorCode != 0 {
+		return nil, NewBitkubError(response.ErrorCode)
+	}
+	return &response, nil
+}
+
+func GetCryptoWithdrawHistory(api_key, api_secret string) (*GetCryptoWithdrawHistoryResponseBitkub, error) {
+	now := fmt.Sprint(time.Now().Unix())
+	requestBody := map[string]string{
+		"ts": now,
+	}
+	b, err := hashRequest(api_key, api_secret, requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	httpReq, err := http.NewRequest("POST", `https://api.bitkub.com/api/crypto/withdraw-history`, bytes.NewBuffer(b))
+	if err != nil {
+		return nil, err
+	}
+
+	addApiKeyToHeader(httpReq, api_key)
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+	var response GetCryptoWithdrawHistoryResponseBitkub
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.ErrorCode != 0 {
+		return nil, NewBitkubError(response.ErrorCode)
+	}
+	return &response, nil
+}
+
 func GetSymbols() (*GetSymbolsResponseBitkub, error) {
 	httpReq, err := http.NewRequest("GET", `https://api.bitkub.com/api/market/symbols`, nil)
 	if err != nil {
