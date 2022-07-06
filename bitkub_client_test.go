@@ -160,3 +160,35 @@ func TestGetTickers(t *testing.T) {
 		t.Error("length of result must not be 0")
 	}
 }
+
+func TestGetFiatDepositHistory(t *testing.T) {
+	t.Log("Testing Get Fiat Depostit")
+	_, err := GetFiatDepositHistory(API_KEY, API_SECRET)
+	if err != nil {
+		t.Error("error mustt be nil:", err)
+	}
+}
+
+func TestGetFiatWithdrawHistory(t *testing.T) {
+	t.Log("Testing Get Fiat Withdraw")
+	_, err := GetFiatWithdrawHistory(API_KEY, API_SECRET)
+	if err != nil {
+		t.Error("error mustt be nil:", err)
+	}
+}
+
+func TestGetCryptotDepositHistory(t *testing.T) {
+	t.Log("Testing Get Crypto Depostit")
+	_, err := GetCryptoDepositHistory(API_KEY, API_SECRET)
+	if err != nil {
+		t.Error("error mustt be nil:", err)
+	}
+}
+
+func TestGetCryptotWtihdrawHistory(t *testing.T) {
+	t.Log("Testing Get Crypto Withdraw")
+	_, err := GetCryptoWithdrawHistory(API_KEY, API_SECRET)
+	if err != nil {
+		t.Error("error mustt be nil:", err)
+	}
+}

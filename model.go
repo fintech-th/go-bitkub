@@ -195,6 +195,65 @@ type Ticker struct {
 	Low24hr       float64 `json:"low24hr"`
 }
 
+type GetFiatDepositHistoryResponseBitkub struct {
+	ErrorCode int                  `json:"error"`
+	Result    []FiatDepositHistory `json:"result"`
+}
+
+type FiatDepositHistory struct {
+	Id       string  `json:"txn_id"`
+	Currency string  `json:"currency"`
+	Amount   float64 `json:"amount"`
+	Status   string  `json:"status"`
+	Time     int     `json:"time"`
+}
+
+type GetFiatWithdrawHistoryResponseBitkub struct {
+	ErrorCode int                   `json:"error"`
+	Result    []FiatWithdrawHistory `json:"result"`
+}
+
+type FiatWithdrawHistory struct {
+	Id       string  `json:"txn_id"`
+	Currency string  `json:"curruncy"`
+	Amount   float64 `json:"amount"`
+	Fee      float64 `json:"fee"`
+	Status   string  `json:"status"`
+	Time     int     `json:"time"`
+}
+
+type GetCryptoDepositHistoryResponseBitkub struct {
+	ErrorCode int                    `json:"error"`
+	Result    []CryptoDepositHistory `json:"result"`
+}
+
+type CryptoDepositHistory struct {
+	Hash          string  `json:"hash"`
+	Currency      string  `json:"currency"`
+	Amount        float64 `json:"amount"`
+	FromAddress   string  `json:"from_address"`
+	ToAddress     string  `json:"to_address"`
+	Confirmations int     `json:"confirmations"`
+	Status        string  `json:"status"`
+	Time          int     `json:"time"`
+}
+
+type GetCryptoWithdrawHistoryResponseBitkub struct {
+	ErrorCode int                     `json:"error"`
+	Result    []CryptoWithdrawHistory `json:"result"`
+}
+
+type CryptoWithdrawHistory struct {
+	Id       string      `json:"txn_id"`
+	Hash     string      `json:"hash"`
+	Currency string      `json:"currency"`
+	Amount   JsonFloat64 `json:"amount"`
+	Fee      float64     `json:"fee"`
+	Address  string      `json:"address"`
+	Stauts   string      `json:"status"`
+	Time     int         `json:"time"`
+}
+
 // for case that sometimes quotes numbers and sometimes doesn't
 type JsonFloat64 float64
 
