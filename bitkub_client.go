@@ -173,13 +173,16 @@ func PlaceAskByFiat(api_key, api_secret, symbol, typ, client_id string, amount, 
 	return &response, nil
 }
 
-func ListOrderHistory(api_key, api_secret, symbol string, start, end *int) (*OrderHistoryResponseBitkub, error) {
+// start, end, page, limit is optional
+func ListOrderHistory(api_key, api_secret, symbol string, start, end, page, limit *int) (*OrderHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
 	requestBody := map[string]interface{}{
 		"ts":    now,
 		"sym":   symbol,
 		"start": start,
 		"end":   end,
+		"p":     page,
+		"lmt":   limit,
 	}
 	b, err := hashRequest(api_key, api_secret, requestBody)
 	if err != nil {
