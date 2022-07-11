@@ -59,9 +59,19 @@ func TestPlaceAskByFiatInsufficientBalance(t *testing.T) {
 	}
 }
 
-func TestListOrderHistorySuccess(t *testing.T) {
-	t.Log("Testing List Order History Success")
-	_, err := ListOrderHistory(API_KEY, API_SECRET, "THB_ETH")
+func TestListOrderHistorySuccessWithTimestamp(t *testing.T) {
+	t.Log("Testing List Order History Success With Timestamp")
+	start := 1640332716
+	end := 1653905896
+	_, err := ListOrderHistory(API_KEY, API_SECRET, "THB_ETH", &start, &end)
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+}
+
+func TestListOrderHistorySuccessWithoutTimestamp(t *testing.T) {
+	t.Log("Testing List Order History Success Without Timestamp")
+	_, err := ListOrderHistory(API_KEY, API_SECRET, "THB_ETH", nil, nil)
 	if err != nil {
 		t.Error("error must be nil:", err)
 	}
@@ -70,7 +80,7 @@ func TestListOrderHistorySuccess(t *testing.T) {
 func TestListOrderHistoryInvalidApiSecret(t *testing.T) {
 	t.Log("Testing List Order History Invalid Api Secret")
 	InvalidApiSecret := "000000050104c0233e321052ca201395"
-	_, err := ListOrderHistory(API_KEY, InvalidApiSecret, "THB_ETH")
+	_, err := ListOrderHistory(API_KEY, InvalidApiSecret, "THB_ETH", nil, nil)
 	if err.Error() != "Missing / invalid signature" {
 		t.Error("error must be \"Missing / invalid signature\", but get:", err)
 	}
