@@ -65,9 +65,20 @@ type OrderHistoryBody struct {
 	Symbol    string `json:"symbol"`
 }
 
+type ListOrderHistoryRequest struct {
+	sig       string `json:"sig,omitempty"`
+	timestamp string `json:"ts"`
+	Symbol    string `json:"sym"`
+	Start     int    `json:"start,omitempty"`
+	End       int    `json:"end,omitempty"`
+	Page      int    `json:"p,omitempty"`
+	Limit     int    `json:"lmt,omitempty"`
+}
+
 type OrderHistoryResponseBitkub struct {
-	ErrorCode int                  `json:"error"`
-	Result    []OrderHistoryResult `json:"result"`
+	ErrorCode   int                  `json:"error"`
+	Result      []OrderHistoryResult `json:"result"`
+	Pagignation Pagination           `json:"pagination"`
 }
 
 type OrderHistoryResponse struct {
@@ -252,6 +263,13 @@ type CryptoWithdrawHistory struct {
 	Address  string      `json:"address"`
 	Stauts   string      `json:"status"`
 	Time     int         `json:"time"`
+}
+
+type Pagination struct {
+	Page int `json:"page"`
+	Last int `json:"last"`
+	Next int `json:"next"`
+	Prev int `json:"prev"`
 }
 
 // for case that sometimes quotes numbers and sometimes doesn't
