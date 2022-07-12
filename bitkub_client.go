@@ -63,7 +63,7 @@ var (
 
 func PlaceBid(api_key, api_secret, symbol, typ, client_id string, amount, rate float64) (*PlaceOrderResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts":        now,
 		"sym":       symbol,
 		"amt":       fmt.Sprintf("%g", amount),
@@ -100,7 +100,7 @@ func PlaceBid(api_key, api_secret, symbol, typ, client_id string, amount, rate f
 
 func PlaceAskByCoin(api_key, api_secret, symbol, typ, client_id string, amount, rate float64) (*PlaceOrderResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts":        now,
 		"sym":       symbol,
 		"amt":       fmt.Sprintf("%g", amount),
@@ -138,7 +138,7 @@ func PlaceAskByCoin(api_key, api_secret, symbol, typ, client_id string, amount, 
 
 func PlaceAskByFiat(api_key, api_secret, symbol, typ, client_id string, amount, rate float64) (*PlaceOrderResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts":        now,
 		"sym":       symbol,
 		"amt":       fmt.Sprintf("%g", amount),
@@ -173,13 +173,25 @@ func PlaceAskByFiat(api_key, api_secret, symbol, typ, client_id string, amount, 
 	return &response, nil
 }
 
-func ListOrderHistory(api_key, api_secret, symbol string) (*OrderHistoryResponseBitkub, error) {
+// start, end, page, limit is optional
+func ListOrderHistory(api_key, api_secret string, requestBody ListOrderHistoryRequest) (*OrderHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
-		"ts":  now,
-		"sym": symbol,
+	requestBody.Timestamp = now
+
+	data, err := json.Marshal(requestBody)
+	if err != nil {
+		return nil, err
 	}
-	b, err := hashRequest(api_key, api_secret, requestBody)
+
+	h := hmac.New(sha256.New, []byte(api_secret))
+
+	// Write Data to it
+	h.Write([]byte(string(data)))
+
+	sha := hex.EncodeToString(h.Sum(nil))
+
+	requestBody.Sig = sha
+	b, err := json.Marshal(requestBody)
 	if err != nil {
 		return nil, err
 	}
@@ -208,7 +220,7 @@ func ListOrderHistory(api_key, api_secret, symbol string) (*OrderHistoryResponse
 
 func GetWallet(api_key, api_secret string) (*GetWalletResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts": now,
 	}
 	b, err := hashRequest(api_key, api_secret, requestBody)
@@ -240,7 +252,7 @@ func GetWallet(api_key, api_secret string) (*GetWalletResponseBitkub, error) {
 
 func GetOpenOrders(api_key, api_secret, symbol string) (*OpenOrderResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts":  now,
 		"sym": symbol,
 	}
@@ -273,7 +285,7 @@ func GetOpenOrders(api_key, api_secret, symbol string) (*OpenOrderResponseBitkub
 
 func CancelOrderByHash(api_key, api_secret, hash string) error {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts":   now,
 		"hash": hash,
 	}
@@ -307,7 +319,7 @@ func CancelOrderByHash(api_key, api_secret, hash string) error {
 
 func GetFiatDepositHistory(api_key, api_secret string) (*GetFiatDepositHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts": now,
 	}
 	b, err := hashRequest(api_key, api_secret, requestBody)
@@ -339,7 +351,7 @@ func GetFiatDepositHistory(api_key, api_secret string) (*GetFiatDepositHistoryRe
 
 func GetFiatWithdrawHistory(api_key, api_secret string) (*GetFiatWithdrawHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts": now,
 	}
 	b, err := hashRequest(api_key, api_secret, requestBody)
@@ -371,7 +383,7 @@ func GetFiatWithdrawHistory(api_key, api_secret string) (*GetFiatWithdrawHistory
 
 func GetCryptoDepositHistory(api_key, api_secret string) (*GetCryptoDepositHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts": now,
 	}
 	b, err := hashRequest(api_key, api_secret, requestBody)
@@ -403,7 +415,7 @@ func GetCryptoDepositHistory(api_key, api_secret string) (*GetCryptoDepositHisto
 
 func GetCryptoWithdrawHistory(api_key, api_secret string) (*GetCryptoWithdrawHistoryResponseBitkub, error) {
 	now := fmt.Sprint(time.Now().Unix())
-	requestBody := map[string]string{
+	requestBody := map[string]interface{}{
 		"ts": now,
 	}
 	b, err := hashRequest(api_key, api_secret, requestBody)
@@ -474,7 +486,7 @@ func GetTickers() (*GetTickersResponseBitkub, error) {
 	return &response, nil
 }
 
-func hashRequest(api_key, api_secret string, requestBody map[string]string) ([]byte, error) {
+func hashRequest(api_key, api_secret string, requestBody map[string]interface{}) ([]byte, error) {
 
 	data, err := json.Marshal(requestBody)
 	if err != nil {
