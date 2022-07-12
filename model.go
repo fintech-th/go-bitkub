@@ -66,8 +66,8 @@ type OrderHistoryBody struct {
 }
 
 type ListOrderHistoryRequest struct {
-	sig       string `json:"sig,omitempty"`
-	timestamp string `json:"ts"`
+	Sig       string `json:"sig,omitempty"`
+	Timestamp string `json:"ts"`
 	Symbol    string `json:"sym"`
 	Start     int    `json:"start,omitempty"`
 	End       int    `json:"end,omitempty"`
