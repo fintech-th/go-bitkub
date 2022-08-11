@@ -14,15 +14,15 @@ type PlaceOrderResponse struct {
 }
 
 type PlaceOrderResult struct {
-	Id              int     `json:"id"`
-	Hash            string  `json:"hash"`
-	OrderType       string  `json:"typ"`
-	Amount          float64 `json:"amt"`
-	Rate            float64 `json:"rat"`
-	Fee             float64 `json:"fee"`
-	FeeCreditUsed   float64 `json:"cre"`
-	AmountToReceive float64 `json:"rec"`
-	Timestamp       int64   `json:"ts"`
+	Id              int         `json:"id"`
+	Hash            string      `json:"hash"`
+	OrderType       string      `json:"typ"`
+	Amount          JsonFloat64 `json:"amt"`
+	Rate            JsonFloat64 `json:"rat"`
+	Fee             JsonFloat64 `json:"fee"`
+	FeeCreditUsed   JsonFloat64 `json:"cre"`
+	AmountToReceive JsonFloat64 `json:"rec"`
+	Timestamp       int64       `json:"ts"`
 }
 
 type PlaceBidBody struct {
@@ -127,19 +127,19 @@ type OpenOrderResponseBitkub struct {
 }
 
 type OpenOrderResult struct {
-	Id            int     `json:"id"`
-	Hash          string  `json:"hash"`
-	Side          string  `json:"side"`
-	Type          string  `json:"type"`
-	Rate          float64 `json:"rate,string"`
-	Fee           float64 `json:"fee,string"`
-	Credit        float64 `json:"credit,string"`
-	Amount        float64 `json:"amount,string"`
-	Receive       float64 `json:"receive,string"`
-	ParentOrderId int     `json:"parent_order_id"`
-	SuperOrderId  int     `json:"super_order_id"`
-	Timestamp     int     `json:"ts"`
-	ClientID      string  `json:"ci"`
+	Id            int         `json:"id"`
+	Hash          string      `json:"hash"`
+	Side          string      `json:"side"`
+	Type          string      `json:"type"`
+	Rate          JsonFloat64 `json:"rate"`
+	Fee           JsonFloat64 `json:"fee"`
+	Credit        JsonFloat64 `json:"credit"`
+	Amount        JsonFloat64 `json:"amount"`
+	Receive       JsonFloat64 `json:"receive"`
+	ParentOrderId int         `json:"parent_order_id"`
+	SuperOrderId  int         `json:"super_order_id"`
+	Timestamp     int         `json:"ts"`
+	ClientID      string      `json:"ci"`
 }
 
 type CancelOrdersBySymbolsBody struct {
@@ -149,11 +149,11 @@ type CancelOrdersBySymbolsBody struct {
 }
 
 type CancelOrderResult struct {
-	Side      string  `json:"side"`
-	Rate      float64 `json:"rate,string"`
-	Amount    float64 `json:"amount"`
-	IsSuccess bool    `json:"is_success"`
-	Error     string  `json:"error"`
+	Side      string      `json:"side"`
+	Rate      JsonFloat64 `json:"rate"`
+	Amount    JsonFloat64 `json:"amount"`
+	IsSuccess bool        `json:"is_success"`
+	Error     string      `json:"error"`
 }
 
 type CancelOrderBySymbolResult struct {
@@ -194,16 +194,16 @@ type GetTickersResponseBitkub struct {
 }
 
 type Ticker struct {
-	Id            int     `json:"id"`
-	Last          float64 `json:"last"`
-	LowestAsk     float64 `json:"lowestAsk"`
-	HighestBid    float64 `json:"highestBid"`
-	PercentChange float64 `json:"percentChange"`
-	BaseVolume    float64 `json:"baseVolume"`
-	QuoteVolume   float64 `json:"quoteVolume"`
-	IsFrozen      int     `json:"isFrozen"`
-	High24hr      float64 `json:"high24hr"`
-	Low24hr       float64 `json:"low24hr"`
+	Id            int         `json:"id"`
+	Last          JsonFloat64 `json:"last"`
+	LowestAsk     JsonFloat64 `json:"lowestAsk"`
+	HighestBid    JsonFloat64 `json:"highestBid"`
+	PercentChange JsonFloat64 `json:"percentChange"`
+	BaseVolume    JsonFloat64 `json:"baseVolume"`
+	QuoteVolume   JsonFloat64 `json:"quoteVolume"`
+	IsFrozen      int         `json:"isFrozen"`
+	High24hr      JsonFloat64 `json:"high24hr"`
+	Low24hr       JsonFloat64 `json:"low24hr"`
 }
 
 type GetFiatDepositHistoryResponseBitkub struct {
@@ -212,11 +212,11 @@ type GetFiatDepositHistoryResponseBitkub struct {
 }
 
 type FiatDepositHistory struct {
-	Id       string  `json:"txn_id"`
-	Currency string  `json:"currency"`
-	Amount   float64 `json:"amount"`
-	Status   string  `json:"status"`
-	Time     int     `json:"time"`
+	Id       string      `json:"txn_id"`
+	Currency string      `json:"currency"`
+	Amount   JsonFloat64 `json:"amount"`
+	Status   string      `json:"status"`
+	Time     int         `json:"time"`
 }
 
 type GetFiatWithdrawHistoryResponseBitkub struct {
@@ -225,12 +225,12 @@ type GetFiatWithdrawHistoryResponseBitkub struct {
 }
 
 type FiatWithdrawHistory struct {
-	Id       string  `json:"txn_id"`
-	Currency string  `json:"curruncy"`
-	Amount   float64 `json:"amount"`
-	Fee      float64 `json:"fee"`
-	Status   string  `json:"status"`
-	Time     int     `json:"time"`
+	Id       string      `json:"txn_id"`
+	Currency string      `json:"curruncy"`
+	Amount   JsonFloat64 `json:"amount"`
+	Fee      JsonFloat64 `json:"fee"`
+	Status   string      `json:"status"`
+	Time     int         `json:"time"`
 }
 
 type GetCryptoDepositHistoryResponseBitkub struct {
@@ -239,14 +239,14 @@ type GetCryptoDepositHistoryResponseBitkub struct {
 }
 
 type CryptoDepositHistory struct {
-	Hash          string  `json:"hash"`
-	Currency      string  `json:"currency"`
-	Amount        float64 `json:"amount"`
-	FromAddress   string  `json:"from_address"`
-	ToAddress     string  `json:"to_address"`
-	Confirmations int     `json:"confirmations"`
-	Status        string  `json:"status"`
-	Time          int     `json:"time"`
+	Hash          string      `json:"hash"`
+	Currency      string      `json:"currency"`
+	Amount        JsonFloat64 `json:"amount"`
+	FromAddress   string      `json:"from_address"`
+	ToAddress     string      `json:"to_address"`
+	Confirmations int         `json:"confirmations"`
+	Status        string      `json:"status"`
+	Time          int         `json:"time"`
 }
 
 type GetCryptoWithdrawHistoryResponseBitkub struct {
@@ -259,7 +259,7 @@ type CryptoWithdrawHistory struct {
 	Hash     string      `json:"hash"`
 	Currency string      `json:"currency"`
 	Amount   JsonFloat64 `json:"amount"`
-	Fee      float64     `json:"fee"`
+	Fee      JsonFloat64 `json:"fee"`
 	Address  string      `json:"address"`
 	Stauts   string      `json:"status"`
 	Time     int         `json:"time"`
