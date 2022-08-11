@@ -1,6 +1,7 @@
 package gobitkub
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -12,7 +13,10 @@ var (
 
 func TestPlaceBidSuccess(t *testing.T) {
 	t.Log("Testing Place Bid Success")
-	_, err := PlaceBid(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 10, 30000)
+	res, err := PlaceBid(API_KEY, API_SECRET, "THB_ETH", "market", "FN_test", 10, 30000)
+	fmt.Printf("%+v\n", res)
+	var f float64
+	fmt.Println(float64(res.Result.Rate) + f)
 	if err != nil {
 		t.Error("error must be nil:", err)
 	}
@@ -28,7 +32,7 @@ func TestPlaceAskByCoinSuccess(t *testing.T) {
 
 func TestPlaceAskByFiatSuccess(t *testing.T) {
 	t.Log("Testing Place Ask By Fiat Success")
-	_, err := PlaceAskByFiat(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 5, 100000)
+	_, err := PlaceAskByFiat(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 20, 100000)
 	if err != nil {
 		t.Error("error must be nil:", err)
 	}
