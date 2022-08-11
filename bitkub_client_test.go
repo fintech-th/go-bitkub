@@ -1,6 +1,7 @@
 package gobitkub
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -10,15 +11,29 @@ var (
 	API_SECRET = config.ApiSecret
 )
 
-func TestPlaceBidSuccess(t *testing.T) {
+func TestPlaceBidMarketSuccess(t *testing.T) {
 	t.Log("Testing Place Bid Success")
-	_, err := PlaceBid(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 10, 30000)
+	res, err := PlaceBid(API_KEY, API_SECRET, "THB_ETH", "market", "FN_test", 20, 30000)
+	fmt.Printf("%+v\n", res)
+	var f float64
+	fmt.Println(float64(res.Result.Rate) + f)
 	if err != nil {
 		t.Error("error must be nil:", err)
 	}
 }
 
-func TestPlaceAskByCoinSuccess(t *testing.T) {
+func TestPlaceBidLimitSuccess(t *testing.T) {
+	t.Log("Testing Place Bid Success")
+	res, err := PlaceBid(API_KEY, API_SECRET, "THB_ETH", "market", "FN_test", 20, 30000)
+	fmt.Printf("%+v\n", res)
+	var f float64
+	fmt.Println(float64(res.Result.Rate) + f)
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+}
+
+func TestPlaceAskByCoinLimitSuccess(t *testing.T) {
 	t.Log("Testing Place Ask By Coin Success")
 	_, err := PlaceAskByCoin(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 0.0002, 120000)
 	if err != nil {
@@ -26,9 +41,25 @@ func TestPlaceAskByCoinSuccess(t *testing.T) {
 	}
 }
 
-func TestPlaceAskByFiatSuccess(t *testing.T) {
+func TestPlaceAskByCoinMarketSuccess(t *testing.T) {
+	t.Log("Testing Place Ask By Coin Success")
+	_, err := PlaceAskByCoin(API_KEY, API_SECRET, "THB_ETH", "market", "FN_test", 0.0002, 120000)
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+}
+
+func TestPlaceAskByFiatLimitSuccess(t *testing.T) {
 	t.Log("Testing Place Ask By Fiat Success")
-	_, err := PlaceAskByFiat(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 5, 100000)
+	_, err := PlaceAskByFiat(API_KEY, API_SECRET, "THB_ETH", "limit", "FN_test", 10, 100000)
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+}
+
+func TestPlaceAskByFiatMarketSuccess(t *testing.T) {
+	t.Log("Testing Place Ask By Fiat Success")
+	_, err := PlaceAskByFiat(API_KEY, API_SECRET, "THB_ETH", "market", "FN_test", 10, 100000)
 	if err != nil {
 		t.Error("error must be nil:", err)
 	}

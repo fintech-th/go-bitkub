@@ -87,6 +87,7 @@ func PlaceBid(api_key, api_secret, symbol, typ, client_id string, amount, rate f
 		return nil, err
 	}
 	var response PlaceOrderResponseBitkub
+	fmt.Println(string(body))
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		return nil, err
