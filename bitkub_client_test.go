@@ -252,3 +252,12 @@ func TestGetCryptotWtihdrawHistory(t *testing.T) {
 		t.Error("error mustt be nil:", err)
 	}
 }
+
+func TestGetBalanceSuccess(t *testing.T) {
+	t.Log("Testing Place Bid Success")
+	res, err := GetBalances(API_KEY, API_SECRET)
+	fmt.Printf("%+v\n", res)
+	if err != nil {
+		t.Error("error must be nil:", err)
+	}
+}
