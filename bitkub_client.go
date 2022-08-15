@@ -87,7 +87,6 @@ func PlaceBid(api_key, api_secret, symbol, typ, client_id string, amount, rate f
 		return nil, err
 	}
 	var response PlaceOrderResponseBitkub
-	fmt.Println(string(body))
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		return nil, err
@@ -240,6 +239,38 @@ func GetWallet(api_key, api_secret string) (*GetWalletResponseBitkub, error) {
 		return nil, err
 	}
 	var response GetWalletResponseBitkub
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.ErrorCode != 0 {
+		return nil, NewBitkubError(response.ErrorCode)
+	}
+	return &response, nil
+}
+
+func GetBalances(api_key, api_secret string) (*GetBalancesResponseBitkub, error) {
+	now := fmt.Sprint(time.Now().Unix())
+	requestBody := map[string]interface{}{
+		"ts": now,
+	}
+	b, err := hashRequest(api_key, api_secret, requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	httpReq, err := http.NewRequest("POST", `https://api.bitkub.com/api/market/balances`, bytes.NewBuffer(b))
+	if err != nil {
+		return nil, err
+	}
+
+	addApiKeyToHeader(httpReq, api_key)
+	body, err := doRequest(httpReq)
+	if err != nil {
+		return nil, err
+	}
+	var response GetBalancesResponseBitkub
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		return nil, err

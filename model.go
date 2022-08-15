@@ -121,6 +121,21 @@ type GetWalletResponseBitkub struct {
 	Result    map[string]float64 `json:"result"`
 }
 
+type GetBalancesBody struct {
+	ApiKey    string `json:"api_key"`
+	ApiSecret string `json:"api_secret"`
+}
+
+type Balances struct {
+	Available JsonFloat64 `json:"available"`
+	Reserved  JsonFloat64 `json:"reserved"`
+}
+
+type GetBalancesResponseBitkub struct {
+	ErrorCode int                 `json:"error"`
+	Result    map[string]Balances `json:"result"`
+}
+
 type OpenOrderResponseBitkub struct {
 	ErrorCode int               `json:"error"`
 	Result    []OpenOrderResult `json:"result"`
